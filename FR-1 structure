@@ -1,0 +1,15 @@
+mern-fr1/
+ ├─ backend/
+ │   ├─ models/
+ │   │   └─ Artifact.js
+ │   ├─ routes/
+ │   │   └─ artifacts.js
+ │   ├─ server.js
+ ├─ frontend/
+ │   ├─ src/
+ │   │   ├─ App.js
+ │   │   ├─ index.js
+ │   │   └─ components/
+ │   │       └─ FeaturedArtifacts.js
+ │   └─ package.json
+ └─ package.json
