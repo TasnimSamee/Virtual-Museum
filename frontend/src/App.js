@@ -8,6 +8,14 @@ import Home from "./pages/Home/Home";
 import Feedback from "./pages/Feedback/Feedback";
 import Artifacts from "./pages/Artifacts/Artifacts";
 import ArtifactDetail from "./pages/Artifacts/ArtifactDetail";
+import Profile from "./pages/Profile/Profile";
+import Blog from "./pages/Blog/Blog";
+import BlogDetail from "./pages/Blog/BlogDetail";
+import CreateBlog from "./pages/Blog/CreateBlog";
+import AdminBlogList from "./pages/Blog/AdminBlogList";
+import QuizList from "./pages/Quiz/QuizList";
+import QuizPage from "./pages/Quiz/QuizPage";
+import CreateQuiz from "./pages/Quiz/CreateQuiz";
 
 function App() {
   return (
@@ -21,6 +29,14 @@ function App() {
         <Route path="/galleries/:slug" element={<Artifacts />} />
         <Route path="/artifacts/:slug" element={<ArtifactDetail />} />
 
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:id" element={<BlogDetail />} />
+        <Route path="/blog/create" element={<CreateBlog />} />
+        <Route path="/admin/blogs" element={<AdminBlogList />} />
+        <Route path="/quizzes" element={<QuizList />} />
+        <Route path="/quiz/create" element={<CreateQuiz />} />
+        <Route path="/quiz/:id" element={<QuizPage />} />
       </Routes>
 
       <Footer />
