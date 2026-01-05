@@ -40,10 +40,7 @@ function Navbar() {
           <Link to="/galleries" style={{ color: "white", textDecoration: "none" }}>
             Galleries
           </Link>
-          <Link to="/blog" style={{ color: "white", textDecoration: "none" }}>
-            Blog
-          </Link>
-          <Link to="/about" style={styles.link}>
+          <Link to="/about" style={{ color: "white", textDecoration: "none" }}>
             About
           </Link>
           <  Link to="/contact" style={styles.link}>
@@ -51,6 +48,9 @@ function Navbar() {
           </Link>
           <Link to="/feedback" style={styles.link}>
             Feedback
+          </Link>
+          <Link to="/news" style={styles.link}>
+            News
           </Link>
           <Link to="/blog" style={styles.link}>
             Blog

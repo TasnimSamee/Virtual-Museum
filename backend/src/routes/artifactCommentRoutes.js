@@ -2,10 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 const controller = require("../controllers/artifactCommentController");
+const { protect } = require("../middleware/authMiddleware");
 
-console.log("ArtifactCommentController:", controller);
+// POST → logged-in users only
+router.post("/", protect, controller.addArtifactComment);
 
-router.post("/", controller.addArtifactComment);
+
 router.get("/:artifactId", controller.getArtifactComments);
 
 module.exports = router;
