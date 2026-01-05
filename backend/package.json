@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
@@ -21,8 +22,13 @@
 =======
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.0.2",
+<<<<<<< HEAD
     "multer": "^2.0.2"
 >>>>>>> b76728620dafdee45a612986c6009c0140fd279b
+=======
+    "multer": "^2.0.2",
+    "rss-parser": "^3.13.0"
+>>>>>>> d2f77758c9f1fd2531719a8087f896327cdadd9d
   },
   "devDependencies": {
     "nodemon": "^3.1.11"

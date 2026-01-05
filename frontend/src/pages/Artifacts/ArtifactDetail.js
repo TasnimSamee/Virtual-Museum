@@ -40,7 +40,7 @@ function ArtifactDetail() {
         alt={artifact.name}
         style={{
           width: "100%",
-          maxHeight: "400px",
+          maxHeight: "auto",
           objectFit: "cover",
           margin: "20px 0",
           borderRadius: "10px",
