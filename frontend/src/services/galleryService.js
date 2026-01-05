@@ -1,8 +1,13 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/galleries";
+import API_BASE_URL from "../config/apiConfig";
 
 export const getAllGalleries = async () => {
-  const response = await axios.get(API_URL);
+  const response = await axios.get(`${API_BASE_URL}/api/galleries`);
+  return response.data;
+};
+
+export const getFeaturedGalleries = async () => {
+  const response = await axios.get(`${API_BASE_URL}/api/galleries/featured`);
   return response.data;
 };

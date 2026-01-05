@@ -45,10 +45,10 @@ exports.createBlog = async (req, res) => {
     try {
         const { title, content } = req.body;
 
-        let imagePath = req.body.image || ""; // Keep supporting URL if provided (though form usually sends file)
+        let imagePath = req.body.image || ""; // Keep supporting URL if provided
         if (req.file) {
-            // Construct standard URL path from file path
-            imagePath = `http://localhost:5000/uploads/${req.file.filename}`;
+            // Construct relative path for local storage
+            imagePath = `/uploads/${req.file.filename}`;
         }
 
         const blog = new Blog({
@@ -133,6 +133,39 @@ exports.approveBlog = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ message: "Server Error" });
+    }
+};
+
+// @desc    Update blog (Admin/Owner)
+// @route   PUT /api/blogs/:id
+// @access  Private
+exports.updateBlog = async (req, res) => {
+    try {
+        const { title, content } = req.body;
+        const blog = await Blog.findById(req.params.id);
+
+        if (blog) {
+            // Check if user is author or admin
+            if (blog.author.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+                return res.status(401).json({ message: "Not authorized to update this blog" });
+            }
+
+            blog.title = title || blog.title;
+            blog.content = content || blog.content;
+
+            if (req.file) {
+                blog.image = `/uploads/${req.file.filename}`;
+            } else if (req.body.image !== undefined) {
+                blog.image = req.body.image;
+            }
+
+            const updatedBlog = await blog.save();
+            res.json(updatedBlog);
+        } else {
+            res.status(404).json({ message: "Blog not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Server Error", error: error.message });
     }
 };
 

@@ -42,7 +42,7 @@ exports.updateUserProfile = async (req, res) => {
             user.email = req.body.email || user.email;
             user.bio = req.body.bio || user.bio;
             if (req.file) {
-                user.profilePicture = `http://localhost:5000/${req.file.path.replace(/\\/g, "/")}`;
+                user.profilePicture = `/${req.file.path.replace(/\\/g, "/")}`;
             } else if (req.body.profilePicture !== undefined) {
                 user.profilePicture = req.body.profilePicture;
             }

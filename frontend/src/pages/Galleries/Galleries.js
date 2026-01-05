@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import API_BASE_URL, { getImageUrl } from "../../config/apiConfig";
 
 function Galleries() {
   const [galleries, setGalleries] = useState([]);
@@ -8,7 +9,7 @@ function Galleries() {
 
   useEffect(() => {
     const fetchGalleries = async () => {
-      const res = await axios.get("http://localhost:5000/api/galleries");
+      const res = await axios.get(`${API_BASE_URL}/api/galleries`);
       setGalleries(res.data);
     };
 
@@ -39,7 +40,7 @@ function Galleries() {
             }}
           >
             <img
-              src={gallery.coverImage}
+              src={getImageUrl(gallery.coverImage)}
               alt={gallery.title}
               style={{ width: "100%", height: "180px", objectFit: "cover" }}
             />

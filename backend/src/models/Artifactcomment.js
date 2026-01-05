@@ -2,15 +2,17 @@ const mongoose = require("mongoose");
 
 const artifactCommentSchema = new mongoose.Schema(
   {
-    artifactSlug: {
-      type: String,
+    artifact: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Artifact",
       required: true,
     },
-    userName: {
-      type: String,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
-    comment: {
+    text: {
       type: String,
       required: true,
     },

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import API_BASE_URL, { getImageUrl } from "../../config/apiConfig";
 
 function AdminBlogList() {
     const [blogs, setBlogs] = useState([]);
@@ -18,7 +19,7 @@ function AdminBlogList() {
                     Authorization: `Bearer ${userInfo.token}`,
                 },
             };
-            const { data } = await axios.get("http://localhost:5000/api/blogs/pending/all", config);
+            const { data } = await axios.get(`${API_BASE_URL}/api/blogs/pending/all`, config);
             setBlogs(data);
             setLoading(false);
         } catch (err) {
@@ -36,7 +37,7 @@ function AdminBlogList() {
                     Authorization: `Bearer ${userInfo.token}`,
                 },
             };
-            await axios.put(`http://localhost:5000/api/blogs/${id}/approve`, {}, config);
+            await axios.put(`${API_BASE_URL}/api/blogs/${id}/approve`, {}, config);
             setBlogs(blogs.filter((blog) => blog._id !== id));
             alert("Blog approved!");
         } catch (err) {
@@ -53,7 +54,7 @@ function AdminBlogList() {
                     Authorization: `Bearer ${userInfo.token}`,
                 },
             };
-            await axios.delete(`http://localhost:5000/api/blogs/${id}`, config);
+            await axios.delete(`${API_BASE_URL}/api/blogs/${id}`, config);
             setBlogs(blogs.filter((blog) => blog._id !== id));
             alert("Blog rejected!");
         } catch (err) {
@@ -77,7 +78,7 @@ function AdminBlogList() {
                             <h3 style={styles.blogTitle}>{blog.title}</h3>
                             <p style={styles.meta}>By: {blog.author?.username}</p>
                             <div style={styles.preview}>
-                                {blog.image && <img src={blog.image} alt="Preview" style={styles.image} />}
+                                {blog.image && <img src={getImageUrl(blog.image)} alt="Preview" style={styles.image} />}
                                 <p>{blog.content.substring(0, 150)}...</p>
                             </div>
                             <div style={styles.actions}>

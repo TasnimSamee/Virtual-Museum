@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const gallerySchema = new mongoose.Schema(
   {
-    name: {
+    title: {
       type: String,
       required: true,
       unique: true,
@@ -15,7 +15,10 @@ const gallerySchema = new mongoose.Schema(
     description: {
       type: String,
     },
-    imageUrl: {
+    country: {
+      type: String,
+    },
+    coverImage: {
       type: String,
       required: true,
     },
