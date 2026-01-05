@@ -5,7 +5,8 @@ const {
     getQuizById,
     submitQuiz,
     createQuiz,
-    getMyResults
+    getMyResults,
+    deleteQuiz
 } = require("../controllers/quizController");
 const { protect, admin } = require("../middleware/authMiddleware");
 
@@ -14,8 +15,9 @@ router.get("/", getQuizzes);
 router.get("/:id", getQuizById);
 
 // Protected endpoints
-router.post("/:id/submit", protect, submitQuiz);
+router.post("/:id/submit", submitQuiz); // Removed protect to allow visitors
 router.get("/results/my", protect, getMyResults);
 router.post("/", protect, admin, createQuiz);
+router.delete("/:id", protect, admin, deleteQuiz);
 
 module.exports = router;
