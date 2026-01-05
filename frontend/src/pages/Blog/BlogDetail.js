@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import API_BASE_URL, { getImageUrl } from "../../config/apiConfig";
 
 function BlogDetail() {
     const { id } = useParams();
@@ -28,7 +29,7 @@ function BlogDetail() {
 
     const fetchBlog = async () => {
         try {
-            const { data } = await axios.get(`http://localhost:5000/api/blogs/${id}`);
+            const { data } = await axios.get(`${API_BASE_URL}/api/blogs/${id}`);
             setBlog(data);
             setLoading(false);
         } catch (err) {
@@ -40,7 +41,7 @@ function BlogDetail() {
     const handleLike = async () => {
         if (isLiked) return; // Prevent spamming in one session
         try {
-            const { data } = await axios.put(`http://localhost:5000/api/blogs/${id}/like`);
+            const { data } = await axios.put(`${API_BASE_URL}/api/blogs/${id}/like`);
             setBlog({ ...blog, likes: data.likes });
             setIsLiked(true);
         } catch (err) {
@@ -53,7 +54,7 @@ function BlogDetail() {
         if (!commentText.trim()) return;
 
         try {
-            const { data } = await axios.post(`http://localhost:5000/api/blogs/${id}/comment`, {
+            const { data } = await axios.post(`${API_BASE_URL}/api/blogs/${id}/comment`, {
                 text: commentText,
                 name: commentName || "Anonymous",
             });
@@ -73,7 +74,7 @@ function BlogDetail() {
                     Authorization: `Bearer ${user.token}`,
                 },
             };
-            await axios.delete(`http://localhost:5000/api/blogs/${id}`, config);
+            await axios.delete(`${API_BASE_URL}/api/blogs/${id}`, config);
             alert("Blog deleted successfully");
             navigate("/blog");
         } catch (err) {
@@ -90,7 +91,7 @@ function BlogDetail() {
             <div style={styles.content}>
                 {blog.image && (
                     <div style={styles.imageContainer}>
-                        <img src={blog.image} alt={blog.title} style={styles.image} />
+                        <img src={getImageUrl(blog.image)} alt={blog.title} style={styles.image} />
                     </div>
                 )}
                 <h1 style={styles.title}>{blog.title}</h1>
@@ -105,9 +106,14 @@ function BlogDetail() {
                 <div style={styles.actions}>
                     {/* Show Delete Button if User is Author or Admin */}
                     {user && (user._id === blog.author?._id || user.role === "admin") && (
-                        <button onClick={handleDelete} style={styles.deleteButton}>
-                            🗑️ Delete Blog
-                        </button>
+                        <>
+                            <button onClick={() => navigate(`/blog/edit/${id}`)} style={styles.editButton}>
+                                ✏️ Edit Blog
+                            </button>
+                            <button onClick={handleDelete} style={styles.deleteButton}>
+                                🗑️ Delete Blog
+                            </button>
+                        </>
                     )}
 
                     <button onClick={handleLike} style={{ ...styles.likeButton, opacity: isLiked ? 0.6 : 1 }}>
@@ -220,6 +226,17 @@ const styles = {
     deleteButton: {
         padding: "10px 20px",
         background: "#d63031",
+        color: "white",
+        border: "none",
+        borderRadius: "30px",
+        cursor: "pointer",
+        fontSize: "1rem",
+        fontWeight: "bold",
+        marginRight: "15px",
+    },
+    editButton: {
+        padding: "10px 20px",
+        background: "#0984e3",
         color: "white",
         border: "none",
         borderRadius: "30px",

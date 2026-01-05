@@ -1,16 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import API_BASE_URL from "../../config/apiConfig";
+import { useParams, useNavigate } from "react-router-dom";
+import API_BASE_URL, { getImageUrl } from "../../config/apiConfig";
 
-function CreateBlog() {
+function EditBlog() {
+    const { id } = useParams();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         title: "",
         content: "",
         image: null,
     });
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+    const [existingImage, setExistingImage] = useState("");
+    const [loading, setLoading] = useState(true);
+    const [submitting, setSubmitting] = useState(false);
+
+    useEffect(() => {
+        fetchBlog();
+    }, [id]);
+
+    const fetchBlog = async () => {
+        try {
+            const { data } = await axios.get(`${API_BASE_URL}/api/blogs/${id}`);
+            setFormData({
+                title: data.title,
+                content: data.content,
+                image: null,
+            });
+            setExistingImage(data.image);
+            setLoading(false);
+        } catch (err) {
+            alert("Failed to fetch blog details");
+            navigate("/blog");
+        }
+    };
 
     const handleChange = (e) => {
         if (e.target.name === "image") {
@@ -23,7 +46,7 @@ function CreateBlog() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            setLoading(true);
+            setSubmitting(true);
             const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
             const formPayload = new FormData();
@@ -40,19 +63,21 @@ function CreateBlog() {
                 },
             };
 
-            await axios.post("http://localhost:5000/api/blogs", formPayload, config);
-            alert("Blog submitted for approval!");
-            navigate("/blog");
+            await axios.put(`${API_BASE_URL}/api/blogs/${id}`, formPayload, config);
+            alert("Blog updated successfully!");
+            navigate(`/blog/${id}`);
         } catch (err) {
-            alert("Failed to create blog");
+            alert("Failed to update blog");
         } finally {
-            setLoading(false);
+            setSubmitting(false);
         }
     };
 
+    if (loading) return <div style={styles.loading}>Loading...</div>;
+
     return (
         <div style={styles.container}>
-            <h2 style={styles.title}>Write a new Blog Post</h2>
+            <h2 style={styles.title}>Edit Blog Post</h2>
             <form onSubmit={handleSubmit} style={styles.form}>
                 <label style={styles.label}>
                     Title
@@ -63,11 +88,17 @@ function CreateBlog() {
                         onChange={handleChange}
                         required
                         style={styles.input}
-                        placeholder="Enter an engaging title"
                     />
                 </label>
+
                 <label style={styles.label}>
-                    Upload Image
+                    Image
+                    {existingImage && !formData.image && (
+                        <div style={styles.previewContainer}>
+                            <p style={styles.previewLabel}>Current Image:</p>
+                            <img src={getImageUrl(existingImage)} alt="Current" style={styles.previewImage} />
+                        </div>
+                    )}
                     <input
                         type="file"
                         name="image"
@@ -76,6 +107,7 @@ function CreateBlog() {
                         style={styles.input}
                     />
                 </label>
+
                 <label style={styles.label}>
                     Content
                     <textarea
@@ -83,16 +115,16 @@ function CreateBlog() {
                         value={formData.content}
                         onChange={handleChange}
                         required
-                        rows="10"
+                        rows="15"
                         style={styles.textarea}
-                        placeholder="Write your story here..."
                     />
                 </label>
+
                 <div style={styles.actions}>
-                    <button type="submit" style={styles.submitButton} disabled={loading}>
-                        {loading ? "Submitting..." : "Submit for Approval"}
+                    <button type="submit" style={styles.submitButton} disabled={submitting}>
+                        {submitting ? "Updating..." : "Update Blog"}
                     </button>
-                    <button type="button" onClick={() => navigate("/blog")} style={styles.cancelButton}>
+                    <button type="button" onClick={() => navigate(`/blog/${id}`)} style={styles.cancelButton}>
                         Cancel
                     </button>
                 </div>
@@ -135,7 +167,6 @@ const styles = {
         borderRadius: "6px",
         color: "white",
         fontSize: "1rem",
-        outline: "none",
     },
     textarea: {
         padding: "12px",
@@ -144,13 +175,26 @@ const styles = {
         borderRadius: "6px",
         color: "white",
         fontSize: "1rem",
-        outline: "none",
         resize: "vertical",
+    },
+    previewContainer: {
+        marginBottom: "10px",
+    },
+    previewLabel: {
+        fontSize: "0.8rem",
+        color: "#888",
+        marginBottom: "5px",
+    },
+    previewImage: {
+        width: "150px",
+        height: "100px",
+        objectFit: "cover",
+        borderRadius: "4px",
+        border: "1px solid #444",
     },
     actions: {
         display: "flex",
         gap: "15px",
-        marginTop: "10px",
     },
     submitButton: {
         flex: 1,
@@ -159,7 +203,6 @@ const styles = {
         color: "white",
         border: "none",
         borderRadius: "6px",
-        fontSize: "1rem",
         fontWeight: "bold",
         cursor: "pointer",
     },
@@ -170,10 +213,10 @@ const styles = {
         color: "white",
         border: "none",
         borderRadius: "6px",
-        fontSize: "1rem",
         fontWeight: "bold",
         cursor: "pointer",
     },
+    loading: { textAlign: "center", marginTop: "50px", color: "#aaa" },
 };
 
-export default CreateBlog;
+export default EditBlog;

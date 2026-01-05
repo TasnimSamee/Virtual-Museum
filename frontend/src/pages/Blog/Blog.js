@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import API_BASE_URL, { getImageUrl } from "../../config/apiConfig";
 
 function Blog() {
   const [blogs, setBlogs] = useState([]);
@@ -21,7 +22,7 @@ function Blog() {
   const fetchBlogs = async (pageNum) => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`http://localhost:5000/api/blogs?page=${pageNum}`);
+      const { data } = await axios.get(`${API_BASE_URL}/api/blogs?page=${pageNum}`);
       if (pageNum === 1) {
         setBlogs(data.blogs);
       } else {
@@ -67,7 +68,7 @@ function Blog() {
             <div style={styles.card}>
               {blog.image && (
                 <div style={styles.imageContainer}>
-                  <img src={blog.image} alt={blog.title} style={styles.image} />
+                  <img src={getImageUrl(blog.image)} alt={blog.title} style={styles.image} />
                 </div>
               )}
               <div style={styles.content}>

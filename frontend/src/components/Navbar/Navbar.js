@@ -31,12 +31,11 @@ function Navbar() {
           color: "white",
         }}
       >
-        <h2>Virtual Museum</h2>
+        <Link to="/" style={{ color: "gold", textDecoration: "none" }}>
+          <h2 style={{ margin: 0 }}>Virtual Museum</h2>
+        </Link>
 
         <div style={{ display: "flex", gap: "20px" }}>
-          <Link to="/" style={{ color: "white", textDecoration: "none" }}>
-            Home
-          </Link>
           <Link to="/galleries" style={{ color: "white", textDecoration: "none" }}>
             Galleries
           </Link>

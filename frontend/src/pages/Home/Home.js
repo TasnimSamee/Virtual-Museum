@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllGalleries } from "../../services/galleryService";
+import { getFeaturedGalleries } from "../../services/galleryService";
 import GalleryCard from "../../components/GalleryCard/GalleryCard";
 
 function Home() {
@@ -7,7 +7,7 @@ function Home() {
 
   useEffect(() => {
     const fetchGalleries = async () => {
-      const data = await getAllGalleries();
+      const data = await getFeaturedGalleries();
       setGalleries(data);
     };
 

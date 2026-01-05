@@ -1,23 +1,29 @@
 const express = require("express");
 const router = express.Router();
-const Artifact = require("../models/Artifact");
+const {
+  getArtifactsByGallery,
+  getArtifactById,
+  getArtifactBySlug,
+  createArtifact,
+  updateArtifact
+} = require("../controllers/artifactController");
+const { protect, admin } = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
 
-// 1️⃣ artifacts by gallery
-router.get("/gallery/:slug", async (req, res) => {
-  const artifacts = await Artifact.find({ gallery: req.params.slug });
-  res.json(artifacts);
-});
+// 1️⃣ artifacts by gallery (slug-based)
+router.get("/gallery/:slug", getArtifactsByGallery);
 
-// 2️⃣ single artifact by slug
-router.get("/:slug", async (req, res) => {
-  const artifact = await Artifact.findOne({ slug: req.params.slug });
+// 2️⃣ single artifact by ID (for editing)
+router.get("/id/:id", getArtifactById);
 
-  if (!artifact) {
-    return res.status(404).json({ message: "Artifact not found" });
-  }
+// 3️⃣ single artifact by slug
+router.get("/:slug", getArtifactBySlug);
 
-  res.json(artifact);
-});
+// 4️⃣ create artifact (admin only)
+router.post("/", protect, admin, upload.single("image"), createArtifact);
+
+// 5️⃣ update artifact (admin only)
+router.put("/:id", protect, admin, upload.single("image"), updateArtifact);
 
 module.exports = router;
 
