@@ -21,6 +21,21 @@ function QuizList() {
         }
     };
 
+    const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this quiz?")) return;
+
+        try {
+            const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            const config = {
+                headers: { Authorization: `Bearer ${userInfo.token}` }
+            };
+            await axios.delete(`http://localhost:5000/api/quizzes/${id}`, config);
+            fetchQuizzes();
+        } catch (err) {
+            alert("Failed to delete quiz");
+        }
+    };
+
     if (loading) return <div style={styles.loading}>Loading Quizzes...</div>;
 
     return (
@@ -48,6 +63,18 @@ function QuizList() {
                         <Link to={`/quiz/${quiz._id}`} style={styles.button}>
                             Start Quiz
                         </Link>
+                        {(function () {
+                            const userInfo = localStorage.getItem("userInfo");
+                            const user = userInfo ? JSON.parse(userInfo) : null;
+                            return user && user.role === 'admin' ? (
+                                <button
+                                    onClick={() => handleDelete(quiz._id)}
+                                    style={styles.deleteBtn}
+                                >
+                                    Delete
+                                </button>
+                            ) : null;
+                        })()}
                     </div>
                 ))}
             </div>
@@ -134,6 +161,16 @@ const styles = {
         borderRadius: "8px",
         border: "none",
     },
+    deleteBtn: {
+        marginTop: "10px",
+        padding: "8px 15px",
+        background: "#d63031",
+        color: "white",
+        border: "none",
+        borderRadius: "4px",
+        cursor: "pointer",
+        fontSize: "0.8rem",
+    }
 };
 
 export default QuizList;
