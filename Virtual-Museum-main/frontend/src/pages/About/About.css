@@ -1,0 +1,122 @@
+/* Container for the whole page */
+.about-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* --- HERO IMAGE SECTION --- */
+.about-hero {
+  position: relative;
+  width: 100%;
+  height: 60vh; /* Takes up 60% of the screen height */
+  overflow: hidden;
+}
+
+.about-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures image covers area without stretching */
+  filter: brightness(0.7); /* Darkens image slightly so text pops */
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  width: 90%;
+}
+
+.hero-overlay h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+  margin: 0;
+}
+
+/* --- TEXT CONTENT SECTION --- */
+.about-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content-block {
+  padding: 4rem 2rem;
+  width: 100%;
+  max-width: 800px; /* Keeps text easy to read */
+  text-align: center;
+}
+
+.content-block h2 {
+  font-size: 2.2rem;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+/* Adds a small underline to headings */
+.content-block h2::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 4px;
+  background: #e67e22; /* Nice orange accent color */
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+.content-block p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+/* --- ALTERNATE BACKGROUND FOR MIDDLE SECTION --- */
+.content-block.alt-bg {
+  background-color: #f9f9f9;
+  max-width: 100%; /* Full width for the grey background */
+}
+/* But we want the text inside to stay centered */
+.content-block.alt-bg p {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- BUTTON STYLING --- */
+.join-us {
+  padding-bottom: 6rem;
+}
+
+.contact-btn {
+  background-color: #2c3e50;
+  color: white;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+  margin-top: 1rem;
+}
+
+.contact-btn:hover {
+  background-color: #e67e22;
+  transform: translateY(-3px);
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 768px) {
+  .hero-overlay h1 {
+    font-size: 2rem;
+  }
+  
+  .content-block {
+    padding: 3rem 1.5rem;
+  }
+}

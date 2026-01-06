@@ -1,0 +1,64 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
+
+import Galleries from "./pages/Galleries/Galleries";
+import Home from "./pages/Home/Home";
+import About from "./pages/About/About";
+import Contact from "./pages/Contact/Contact";
+import Feedback from "./pages/Feedback/Feedback";
+import News from "./pages/News/News";
+import Artifacts from "./pages/Artifacts/Artifacts";
+import ArtifactDetail from "./pages/Artifacts/ArtifactDetail";
+import AddArtifact from "./pages/Artifacts/AddArtifact";
+import EditArtifact from "./pages/Artifacts/EditArtifact";
+import Profile from "./pages/Profile/Profile";
+import Blog from "./pages/Blog/Blog";
+import BlogDetail from "./pages/Blog/BlogDetail";
+import CreateBlog from "./pages/Blog/CreateBlog";
+import EditBlog from "./pages/Blog/EditBlog";
+import AdminBlogList from "./pages/Blog/AdminBlogList";
+import QuizList from "./pages/Quiz/QuizList";
+import QuizPage from "./pages/Quiz/QuizPage";
+import CreateQuiz from "./pages/Quiz/CreateQuiz";
+import ChatBot from './components/ChatBot/ChatBot';
+import Game from "./pages/Game/GamePage";
+import Newsletter from "./components/Newsletter/Newsletter";
+import GamePage from "./pages/Game/GamePage";
+function App() {
+  return (
+    <Router>
+      <Navbar />
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/feedback" element={<Feedback />} />
+        <Route path="/news" element={< News />} />
+        <Route path="/galleries" element={<Galleries />} />
+        <Route path="/galleries/:slug" element={<Artifacts />} />
+        <Route path="/artifacts/add" element={<AddArtifact />} />
+        <Route path="/artifacts/edit/:id" element={<EditArtifact />} />
+        <Route path="/artifacts/:slug" element={<ArtifactDetail />} />
+
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:id" element={<BlogDetail />} />
+        <Route path="/blog/edit/:id" element={<EditBlog />} />
+        <Route path="/blog/create" element={<CreateBlog />} />
+        <Route path="/admin/blogs" element={<AdminBlogList />} />
+        <Route path="/quizzes" element={<QuizList />} />
+        <Route path="/quiz/create" element={<CreateQuiz />} />
+        <Route path="/quiz/:id" element={<QuizPage />} />
+        <Route path="/game" element={<GamePage />} />
+      </Routes>
+      <ChatBot />
+      <Newsletter />
+      <Footer />
+    </Router>
+  );
+}
+
+export default App;
