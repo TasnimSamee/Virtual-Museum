@@ -57,7 +57,9 @@ function Navbar() {
           <Link to="/quizzes" style={styles.link}>
             Quizzes
           </Link>
-
+          <Link to="/game" style={styles.link}>
+            Game
+          </Link>
           {user ? (
             <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
               <Link to="/profile" style={{ color: "gold", textDecoration: "none", fontWeight: "bold" }}>

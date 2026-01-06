@@ -1,0 +1,4 @@
+MONGO_URI=mongodb+srv://yusufsahil41_db_user:yusuf1234@vir-museum-cluster.dnkrwxm.mongodb.net/virt_museum?appName=vir-museum-cluster
+PORT=5000
+
+GEMINI_API_KEY=AIzaSyA1vML9rjwkR7SXGq--djB2L6QdBMvZmyc
